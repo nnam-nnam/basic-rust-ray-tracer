@@ -1,6 +1,6 @@
 pub mod color;
-pub mod ray;
 pub mod operations;
+pub mod ray;
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Vec3(pub f64, pub f64, pub f64);
@@ -30,8 +30,8 @@ impl Vec3 {
         f64::powi(self.0, 2) + f64::powi(self.1, 2) + f64::powi(self.2, 2)
     }
 
-    pub(crate) fn dot(&self, rhs: &Self) -> f64 {
-        self.0 * rhs.0 + self.1 * rhs.1 + self.2 * rhs.2
+    pub(crate) fn dot(lhs: &Self, rhs: &Self) -> f64 {
+        lhs.0 * rhs.0 + lhs.1 * rhs.1 + lhs.2 * rhs.2
     }
 
     pub(crate) fn cross(lhs: &Self, rhs: &Self) -> Self {

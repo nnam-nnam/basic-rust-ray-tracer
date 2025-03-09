@@ -12,7 +12,7 @@ impl Display for Color {
         let g = (255.999 * g) as i32;
         let b = (255.999 * b) as i32;
 
-        write!(f, "{r} {g} {b}\n")?;
+        writeln!(f, "{r} {g} {b}")?;
 
         Ok(())
     }

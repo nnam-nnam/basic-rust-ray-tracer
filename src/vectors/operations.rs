@@ -49,11 +49,21 @@ impl AddAssign for Vec3 {
     }
 }
 
-impl Sub for Vec3 {
-    type Output = Self;
+impl<T> Sub<T> for Vec3
+where
+    T: Into<Vec3>,
+{
+    type Output = Vec3;
 
-    fn sub(self, rhs: Self) -> Self::Output {
-        Self(self.0 - rhs.0, self.1 - rhs.1, self.2 - rhs.2)
+    fn sub(self, rhs: T) -> Self::Output {
+        let rhs = rhs.into();
+        Vec3(self.0 - rhs.0, self.1 - rhs.1, self.2 - rhs.2)
+    }
+}
+
+impl From<&Vec3> for Vec3 {
+    fn from(v: &Vec3) -> Self {
+        *v
     }
 }
 

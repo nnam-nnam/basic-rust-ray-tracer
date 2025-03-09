@@ -3,7 +3,6 @@ use std::fs::File;
 use std::io::{LineWriter, Write};
 
 // log modules
-use env_logger;
 use log::debug;
 
 mod vectors;
@@ -11,10 +10,26 @@ use vectors::Vec3;
 use vectors::color::Color;
 use vectors::ray::{Ray, Point3};
 
+
+/// Use quadratic formula to determine if ray hits sphere
+fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> bool {
+	let oc = *center - r.origin();
+	let a = Vec3::dot(r.direction(), r.direction());
+	let b = Vec3::dot(r.direction(), &oc) * -2.0;
+	let c = Vec3::dot(&oc, &oc) - radius * radius;
+	let discriminant = b * b - 4.0 * a * c;
+
+	discriminant >= 0.0
+}
+
 /// Creates a linear scale for blue and white based on blendedValue function
 /// 
 /// `blendedValue = startValue * (1 - a) + endValue * a`
 fn ray_color(r: &Ray) -> Color {
+	if hit_sphere(&Vec3(0.0, 0.0, -1.0), 0.5, r) {
+		return Color(1.0, 0.0, 0.0);
+	}
+
 	let unit_direction = Vec3::unit_vector(r.direction());
 	let a = (unit_direction.y() + 1.0) * 0.5;
 	Color(1.0, 1.0, 1.0) * (1.0 - a) + Color(0.5, 0.7, 1.0) * a 
